@@ -1,0 +1,184 @@
+{
+  "HERO": {
+    "TITLE": "La livraison de nourriture la plus rapide en",
+    "LOCATION": "Bulgarie",
+    "DESCRIPTION": "Savourez les meilleurs plats depuis le confort de votre maison. Satisfaites vos envies avec notre large sélection de cuisines délicieuses, livrées directement à votre porte. Profitez de la commodité et des saveurs comme jamais auparavant !",
+    "ORDER_NOW": "Commander maintenant"
+  },
+  "HEADER": {
+    "HOME": "Accueil",
+    "MENU": "Menu",
+    "ABOUT_US": "À propos de nous",
+    "CONTACT_US": "Contactez-nous",
+    "ADMIN_DASHBOARD": "Tableau de bord administrateur",
+    "SERVICES": "Services"
+  },
+  "MENU": {
+    "MENU": "Menu",
+    "TITLE": "Nos Délices",
+    "SUB_TITLE": "Explorez notre large variété de plats. Il y en a pour tous les goûts !"
+  },
+  "PLANS": {
+    "TITLE": "Nos Plans",
+    "DESCRIPTION": "Choisissez le plan parfait pour les besoins de votre entreprise.",
+    "BASIC_BITE": {
+      "NAME": "Morsure Basique",
+      "DESCRIPTION": "Idéal pour les petits restaurants ou les startups cherchant à élargir leurs options de livraison.",
+      "PRICE": "19 $",
+      "FREQUENCY": "/mois",
+      "FEATURES": ["Jusqu'à 50 commandes de livraison", "Analytique de base", "Support communautaire"],
+      "ACTION_TEXT": "Commencer"
+    },
+    "GOURMET_GROWTH": {
+      "NAME": "Croissance Gourmet",
+      "DESCRIPTION": "Parfait pour les entreprises en croissance cherchant à augmenter leur présence sur le marché.",
+      "PRICE": "39 $",
+      "FREQUENCY": "/mois",
+      "FEATURES": ["Commandes de livraison illimitées", "Analytique avancée", "Support prioritaire"],
+      "ACTION_TEXT": "Commencer"
+    },
+    "EPICUREAN_ENTERPRISE": {
+      "NAME": "Entreprise",
+      "DESCRIPTION": "Solutions à grande échelle pour les restaurants établis ayant des besoins personnalisés.",
+      "PRICE": "399 $",
+      "FREQUENCY": "/mois",
+      "FEATURES": [
+        "Volume de commandes personnalisé",
+        "Consultation de menu personnalisée",
+        "Gestionnaire de compte dédié"
+      ],
+      "ACTION_TEXT": "Contacter les ventes"
+    }
+  },
+  "SUBSCRIBE": {
+    "TITLE": "Inscrivez-vous à notre <span class='text-primary'>newsletter</span>",
+    "DESCRIPTION": "Restez informé des progrès de la feuille de route, des annonces et des réductions exclusives. N'hésitez pas à vous inscrire avec votre e-mail.",
+    "PRIVACY_POLICY": "Nous nous soucions de la protection de vos données. <a href='#' class='text-primary hover:underline'>Lisez notre Politique de confidentialité.</a>",
+    "EMAIL_PLACEHOLDER": "Entrez votre e-mail",
+    "SUBSCRIBE_BUTTON": "S'abonner"
+  },
+  "STATS": {
+    "HAPPY_CLIENTS": "Clients satisfaits",
+    "ORDERS_DELIVERED": "Commandes livrées",
+    "TIME_SAVED": "Heures économisées"
+  },
+  "FOOTER": {
+    "ABOUT": "À propos",
+    "MENU": "Menu",
+    "PROFILE": "Profil",
+    "ORDERS": "Commandes",
+    "CONTACT": "Contact",
+    "COPYRIGHT": "© 2024 <a routerLink='/' class='hover:underline'>Food Squad™</a>. Tous droits réservés."
+  },
+  "PROFILE_MENU": {
+    "PROFILE": "Mon Profil",
+    "ORDERS": "Mes Commandes",
+    "REVIEWS": "Mes Avis",
+    "LOGOUT": "Déconnexion"
+  },
+  "COLORS": {
+    "base": "Base",
+    "yellow": "Jaune",
+    "green": "Vert",
+    "blue": "Bleu",
+    "orange": "Orange",
+    "red": "Rouge",
+    "violet": "Violet"
+  },
+  "MODE": {
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "SERVICE": {
+    "FIRST_ROW": {
+      "TITLE": "Le meilleur service pour satisfaire vos",
+      "HIGHLIGHT": "attentes",
+      "DESCRIPTION": "Ce n'est pas seulement vous apporter de bons plats de vos restaurants préférés. C'est aussi créer une connexion.",
+      "LINK_TEXT": "Lire la suite"
+    },
+    "SECOND_ROW": {
+      "TITLE": "Dédié à vous",
+      "HIGHLIGHT": "SATISFAIRE",
+      "DESCRIPTION": "La satisfaction du client passe par le dépassement de ses attentes pour renforcer sa fidélité et son engagement.",
+      "LINK_TEXT": "Lire la suite"
+    }
+  },
+  "ABOUT_US": {
+    "TITLE": "À propos de Food Squad : Un projet étudiant",
+    "DESCRIPTION": "Bienvenue chez Food Squad, une plateforme innovante de commande de nourriture développée dans le cadre d'un projet étudiant. Moi, George, suis le seul créateur et développeur de Food Squad, animé par une passion pour la technologie et l'amour de la bonne cuisine. Food Squad n'est pas seulement une application ; c'est le résultat de mon engagement à apprendre et à explorer de nouvelles opportunités dans le monde numérique.",
+    "MISSION": {
+      "TITLE": "Notre Mission",
+      "DESCRIPTION": "Food Squad est né du désir d'explorer l'intersection entre la technologie et la gastronomie, sans objectif de profit. Ma mission avec Food Squad est simple : créer une expérience de commande de nourriture pratique et agréable pour les utilisateurs, tout en acquérant des compétences et des connaissances précieuses en tant qu'étudiant."
+    },
+    "VISION": {
+      "TITLE": "Notre Vision",
+      "DESCRIPTION": "Alors que de nombreuses applications alimentaires visent le profit et l'extensibilité, la vision de Food Squad est unique. J'imagine Food Squad comme une plateforme qui met l'accent sur l'apprentissage et l'expérimentation, offrant aux utilisateurs un aperçu des capacités des projets étudiants. À travers Food Squad, je souhaite démontrer la créativité et l'innovation que les étudiants peuvent apporter."
+    },
+    "UNIQUENESS": {
+      "TITLE": "Ce qui distingue Food Squad",
+      "FEATURES": [
+        "Projet éducatif : Food Squad sert de plateforme d'apprentissage pour moi en tant qu'étudiant, me permettant d'acquérir une expérience pratique en développement d'applications, conception d'interface utilisateur et gestion de projet.",
+        "Engagement communautaire : Bien que Food Squad ne vise pas le profit, il favorise l'engagement et la collaboration communautaire. Je suis ouvert aux commentaires et suggestions des utilisateurs, des étudiants et de toute personne souhaitant contribuer à la croissance du projet.",
+        "Approche transparente : Food Squad fonctionne avec transparence et honnêteté. En tant que projet étudiant, je suis franc sur mes objectifs et mes limites, offrant aux utilisateurs un aperçu unique du processus de développement.",
+        "Amélioration continue : Alors que je continue à développer Food Squad, je m'engage à une amélioration continue. Chaque mise à jour et chaque amélioration sont motivées par le désir d'apprendre et de perfectionner mes compétences de développeur."
+      ]
+    },
+    "GET_INVOLVED": {
+      "TITLE": "Participez",
+      "DESCRIPTION": "Vous souhaitez soutenir Food Squad ? Il existe plusieurs façons de participer :",
+      "OPPORTUNITIES": [
+        "Donnez votre avis : Vos commentaires sont essentiels pour façonner l'avenir de Food Squad. Que vous ayez des suggestions d'amélioration ou des demandes de fonctionnalités, j'aimerais avoir votre avis.",
+        "Faites connaître le projet : Aidez à faire connaître Food Squad dans votre communauté et parmi vos camarades étudiants. Plus il y a d'utilisateurs, plus il y a d'opportunités d'apprentissage et de collaboration.",
+        "Contribuez : Êtes-vous un étudiant passionné par la technologie ? Envisagez de contribuer à Food Squad ! Que vous soyez développeur, designer ou passionné de marketing, il y a une place pour vous dans l'équipe Food Squad."
+      ]
+    }
+  },
+  "CONTACT_US": {
+    "TITLE": "Contactez-nous",
+    "DESCRIPTION": "Un problème technique ? Vous souhaitez donner votre avis sur une fonctionnalité en version bêta ? Besoin de détails sur notre plan Entreprise ? Faites-le-nous savoir.",
+    "FORM": {
+      "EMAIL_LABEL": "Votre e-mail",
+      "EMAIL_PLACEHOLDER": "nom@flowbite.com",
+      "SUBJECT_LABEL": "Objet",
+      "SUBJECT_PLACEHOLDER": "Dites-nous comment nous pouvons vous aider",
+      "MESSAGE_LABEL": "Votre message",
+      "MESSAGE_PLACEHOLDER": "Laissez un commentaire...",
+      "SUBMIT_BUTTON": "Envoyer le message"
+    },
+    "ADDRESS": {
+      "TITLE": "Adresse",
+      "TEXT": "Dupnitsa, Bulgarie 2600"
+    },
+    "CONTACT_INFO": {
+      "TECH_SUPPORT": {
+        "TITLE": "Support technique",
+        "EMAIL": "support",
+        "PHONE": "+1 234-567-89"
+      },
+      "SALES": {
+        "TITLE": "Questions commerciales",
+        "EMAIL": "sales",
+        "PHONE": "+1 234-567-89"
+      },
+      "PRESS": {
+        "TITLE": "Presse",
+        "EMAIL": "press",
+        "PHONE": "+1 234-567-89"
+      },
+      "BUG_REPORT": {
+        "TITLE": "Signalement de bug",
+        "EMAIL": "bugs",
+        "PHONE": "+1 234-567-89"
+      }
+    }
+  },
+  "TOASTER_MESSAGE": {
+    "ADDING_PAYMENT_DATA_SUCCEEFULLY": "Donnees de paiement bien retenus",
+    "NO_MENU_ITME_FOUND_FOR_THIS_BAR_CODE": "Aucun item de menu trouve pour ce code barre" , 
+    "AUCUN_MENU_ITEM_TROUVE_POUR_CE_BARCODE": "Aucun menu item trouvé  pour ce barcode"
+
+  },
+  "HTTP_ERROR_MESSAGES": {
+    "ENEXPECTED_ERROR": "Une erreur inattendue s'est produite"
+  }
+}

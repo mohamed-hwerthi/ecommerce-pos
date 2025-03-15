@@ -1,0 +1,50 @@
+<div class="mb-4 grid grid-cols-1 gap-4">
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <label for="orderTotal" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+        Code a barre
+      </label>
+      <div class="relative">
+        <div
+          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 dark:text-gray-400">
+        </div>
+        <input
+          type="text"
+          id="barCode"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-7 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+           />
+      </div>
+    </div>
+
+    <div>
+      <label for="receivedAmount" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+        Nom du produit <span class="text-red-500">*</span>
+      </label>
+      <div class="relative">
+        <div
+          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 dark:text-gray-400">
+        </div>
+        <input
+          type="text"
+          id="productName"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-7 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          required />
+      </div>
+    </div>
+  </div>
+
+  <div class="col-span-2 flex justify-end gap-2">
+    <button
+      type="button"
+      (click)="closeModal()"
+      class="rounded-lg bg-gray-500 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none hover:bg-gray-600">
+      Cancel
+    </button>
+    <button
+      (click)="submitFilterModalData()"
+      type="submit"
+      class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none hover:bg-blue-800">
+      Submit
+    </button>
+  </div>
+</div>
