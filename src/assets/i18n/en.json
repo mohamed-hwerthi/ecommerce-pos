@@ -14,9 +14,9 @@
     "SERVICES": "Services"
   },
   "MENU": {
-    "MENU": "Menu",
-    "TITLE": "Our Delicious",
-    "SUB_TITLE": "Explore our wide variety of dishes. There's something for everyone!"
+    "MENU": "Naturels",
+    "TITLE": "Nos Produits  ",
+    "SUB_TITLE": "Découvrez notre large gamme de produits cosmétiques naturels. Il y en a pour tous les goûts !"
   },
   "PLANS": {
     "TITLE": "Our Plans",
@@ -170,7 +170,7 @@
   },
   "TOASTER_MESSAGE": {
     "ADDING_PAYMENT_DATA_SUCCEEFULLY": "Payment data saved successfully",
-    "NO_MENU_ITME_FOUND_FOR_THIS_BAR_CODE": "No menu item found for this barcode" , 
+    "NO_MENU_ITME_FOUND_FOR_THIS_BAR_CODE": "No menu item found for this barcode",
     "AUCUN_MENU_ITEM_TROUVE_POUR_CE_BARCODE": "No menu item found  for this barcode"
   },
   "HTTP_ERROR_MESSAGES": {

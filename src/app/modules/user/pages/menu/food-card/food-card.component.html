@@ -1,34 +1,20 @@
-
 <div class="relative flex items-center justify-center" @fadeInOut>
   <div
     class="z-10 mx-auto w-full max-w-md overflow-hidden rounded-3xl border-2 border-primary bg-white shadow-md shadow-primary dark:bg-transparent">
     <div class="group mx-auto max-w-md cursor-pointer transition duration-500 hover:scale-105">
       <div class="aspect-w-16 aspect-h-9 relative bg-gray-200">
         <!-- Always display the compressed image initially -->
-        <img
-          src="./assets/images/compress.jpg"
-          class="absolute top-0 left-0 h-full w-full object-cover blur"
-          loading="lazy" />
+        <img [src]="getMenuItemImage()" class="absolute top-0 left-0 h-full w-full object-cover" loading="lazy" />
 
         <!-- High-quality image with direct event binding to change its visibility -->
-        <img
-          [hidden]="!imageLoaded"
-          (load)="imageLoaded = true"
-          [src]="item.imageUrl"
-          alt="{{ item.title }}"
-          class="absolute top-0 left-0 h-full w-full object-cover"
-          loading="lazy" />
       </div>
       <div class="flex min-h-[100px] flex-col p-4 sm:p-6">
         <p class="mb-1 text-[22px] font-bold leading-7 text-gray-700 dark:text-white">{{ item.title }}</p>
         <div class="flex flex-row justify-between py-2">
           <div class="flex flex-row">
-            <p class="mr-2 text-[17px] text-[#3C3C4399] line-through dark:text-white">
-              {{ item.price + 5 | currency }}
-            </p>
             <p class="text-[17px] font-bold text-[#0FB478]">{{ item.price | currency }}</p>
           </div>
- <!--          <div class="flex items-center">
+          <!--          <div class="flex items-center">
             <svg
               class="mr-1 h-6 w-6 text-yellow-500"
               aria-hidden="true"
@@ -46,8 +32,9 @@
               {{ item.reviewCount }} reviews
             </button>
           </div> -->
-        </div>§ 
-    <!--     <div>
+        </div>
+        §
+        <!--     <div>
           <p class="font-[15px] text-[#7C7C80] transition ease-in-out dark:text-white">
             {{
               showFullDescription || item.description.length <= 50
@@ -64,7 +51,7 @@
           class="mt-4 w-full cursor-pointer rounded-[14px] bg-primary px-4 py-3 text-center font-medium capitalize tracking-wide text-white transition-colors duration-300 focus:outline-none focus:ring focus:ring-opacity-80 hover:opacity-75">
           Add to cart
         </button>
-    <!--     <button
+        <!--     <button
           (click)="openReviewModal(item.id)"
           class="mt-4 w-full cursor-pointer rounded-[14px] bg-gradient-to-r from-purple-500 to-indigo-600 px-4 py-3 text-center font-medium capitalize tracking-wide text-white transition-colors duration-300 focus:outline-none focus:ring focus:ring-opacity-80 hover:opacity-75">
           Submit a review

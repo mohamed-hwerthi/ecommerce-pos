@@ -10,27 +10,32 @@ import { openCreateReviewUserModal, openUsersReviewModal } from '../../../../../
 import { addItem } from '../../../../../core/state/shopping-cart/cart.actions';
 import { selectCartItems } from '../../../../../core/state/shopping-cart/cart.selectors';
 import { CartVisibilityService } from '../../../../../services/cart-visibility.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-food-card',
   standalone: true,
-  imports: [RouterLink,CommonModule,CurrencyPipe],
+  imports: [RouterLink, CommonModule, CurrencyPipe],
   templateUrl: './food-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('fadeInOut', [
       state('in', style({ opacity: 1 })),
       transition(':enter', [style({ opacity: 0 }), animate('0.5s ease-in', style({ opacity: 1 }))]),
-      transition(':leave', [animate('0.5s ease-out', style({ opacity: 0 }))])
+      transition(':leave', [animate('0.5s ease-out', style({ opacity: 0 }))]),
     ]),
-  ]
+  ],
 })
 export class FoodCardComponent {
   @Input() item!: MenuItem;
-  imageLoaded= false;
+  imageLoaded = false;
   showFullDescription = false;
 
-  constructor(private  readonly  store: Store,private   readonly  toastr:ToastrService, private readonly cartVisibility: CartVisibilityService) {}
+  constructor(
+    private readonly store: Store,
+    private readonly toastr: ToastrService,
+    private readonly cartVisibility: CartVisibilityService,
+  ) {}
 
   ngOnInit(): void {}
 
@@ -42,7 +47,6 @@ export class FoodCardComponent {
     this.showFullDescription = !this.showFullDescription;
   }
 
-
   openReviewModal(itemId: number): void {
     this.store.dispatch(openCreateReviewUserModal({ itemId }));
   }
@@ -52,21 +56,31 @@ export class FoodCardComponent {
   }
 
   addToCart(item: MenuItem): void {
-    this.store.select(selectCartItems).pipe(
-      take(1), // Take the first item only and automatically unsubscribe, prevents duplicates in cart
-      map((items: MenuItem[]) => {
-        const exists = items.some(existingItem => existingItem.id === item.id);
-        if (exists) {
-          this.toastr.info('Item is already added','', {
-            positionClass: 'custom-toast-top-right',
-          });
-        } else {
-          this.toastr.success('Item added to cart!','',{
-            positionClass:'custom-toast-top-right'
-          });
-          this.store.dispatch(addItem({ item }));
-        }
-      })
-    ).subscribe();
+    this.store
+      .select(selectCartItems)
+      .pipe(
+        take(1), // Take the first item only and automatically unsubscribe, prevents duplicates in cart
+        map((items: MenuItem[]) => {
+          const exists = items.some((existingItem) => existingItem.id === item.id);
+          if (exists) {
+            this.toastr.info('Item is already added', '', {
+              positionClass: 'custom-toast-top-right',
+            });
+          } else {
+            this.toastr.success('Item added to cart!', '', {
+              positionClass: 'custom-toast-top-right',
+            });
+            this.store.dispatch(addItem({ item }));
+          }
+        }),
+      )
+      .subscribe();
+  }
+  getMenuItemImage(): string {
+    if (this.item.medias.length > 0) {
+      return environment.apiStaticUrl + this.item.medias[0].url;
+    } else {
+      return '';
+    }
   }
 }

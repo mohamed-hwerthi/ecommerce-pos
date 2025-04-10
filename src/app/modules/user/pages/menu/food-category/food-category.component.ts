@@ -1,15 +1,17 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { trigger, transition, style, animate, state } from '@angular/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { ThemeService } from 'src/app/services/theme.service';
-import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { CategoryDTO } from 'src/app/core/models/categoryDTO.model';
+import { CategoryService } from 'src/app/services/category.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-food-category',
   standalone: true,
-  imports: [CommonModule,TranslateModule , FormsModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './food-category.component.html',
   animations: [
     trigger('slideIn', [
@@ -30,31 +32,54 @@ import { FormsModule } from '@angular/forms';
   ],
 })
 export class FoodCategoryComponent implements OnInit {
-  selectedCategory = 'burger'; // Default category
+  selectedCategory: any; // Default category
   @Output() categorySelected = new EventEmitter<string>();
-  categories = [
-    { label: 'Pizza', value: 'Pizza', icon: 'assets/images/pizza.png' },
-    { label: 'Burger', value: 'Burger', icon: 'assets/images/burger.png' },
-    { label: 'Pasta', value: 'Pasta', icon: 'assets/images/pasta.png' },
-    { label: 'Sushi', value: 'Sushi', icon: 'assets/images/sushi.png' },
-    { label: 'Salad', value: 'Salad', icon: 'assets/images/salad.png' },
-    { label: 'Tacos', value: 'Tacos', icon: 'assets/images/tacos.png' },
-    { label: 'Dessert', value: 'Dessert', icon: 'assets/images/desert.png' },
-    { label: 'Other', value: 'Other', icon: 'assets/images/other.png' },
-  ];
+  allCategories: CategoryDTO[] = [];
 
-  constructor(private  readonly  route: ActivatedRoute, private  readonly  router: Router ,  public  themeService:ThemeService) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly toastr: ToastrService,
+    private readonly router: Router,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   ngOnInit(): void {
-    
-    this.route.queryParams.subscribe((params) => {
-      this.selectedCategory = params['category'] || this.selectedCategory;
-    });
+    this.loadCategories();
+  }
+  loadAndSelectCategory(category: string): void {}
+
+  selectCategory(category: CategoryDTO): void {
+    // Navigate and update the queryParams upon selection
+    this.router.navigate(['/menu'], { queryParams: { category: category.id } });
+  }
+  getCategoryImage(category: CategoryDTO): string {
+    if (category.medias.length > 0) {
+      return environment.apiStaticUrl + category.medias[0].url;
+    } else {
+      return '';
+    }
   }
 
-  selectCategory(category: { label: string; value: string }): void {
-    // Navigate and update the queryParams upon selection
-    this.router.navigate(['/menu'], { queryParams: { category: category.value.toLowerCase() } });
+  loadCategories(): void {
+    this.categoryService.findAllCategories().subscribe({
+      next: (res: CategoryDTO[]) => {
+        this.allCategories = res;
+        this.route.queryParams.subscribe((params) => {
+          // Update selectedCategory based on queryParams or default to 'Burger'
+          this.selectedCategory = params['category'] || this.selectedCategory;
+        });
+      },
+      error: (error) => {
+        this.toastr.error('Error fetching categories:', error);
+      },
+    });
+
+    // Update URL query parameters
+    /*   this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { page, category: categoryFilter, sort: priceSortDirection, default: isDefault },
+          queryParamsHandling: 'merge',
+        }); */
   }
 
   determineAnimation(i: number): string {

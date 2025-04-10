@@ -20,6 +20,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PaymentCreateModalComponent } from 'src/app/modules/admin/dashboard/components/payment/payment-create-modal/payment-create-modal.component';
 import { PaymentDetails } from '../../../../admin/dashboard/components/payment/payment-create-modal/payment-create-modal.component';
 import { FilterModalComponent } from 'src/app/modules/admin/dashboard/components/filter-modal/filter-modal.component';
+import { environment } from 'src/environments/environment';
 
 interface CartItem extends MenuItem {
   quantity: number;
@@ -221,6 +222,13 @@ export class CartComponent implements OnInit {
         console.log(dialogPaymentData);
       }
     });
-}
+  }
 
+  getMenuItemImage(item: MenuItem): string {
+    if (item.medias.length > 0) {
+      return environment.apiStaticUrl + item.medias[0].url;
+    } else {
+      return '';
+    }
+  }
 }

@@ -1,15 +1,17 @@
+import { CategoryDTO } from './categoryDTO.model';
+import { Media } from './media.model';
 
 export interface MenuItem {
-  id: number; // Unique identifier for the menu item.
-  title: string; // Title of the menu item.
-  description: string; // Description of the menu item.
-  price: number; // Price of the menu item.
-  imageUrl: URL; // URL to the image of the menu item.
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  imageUrl: URL;
   salesCount: number;
-  category: string;
-  defaultItem: boolean; //Determinate if item is created by admin or normal user
+  categories: CategoryDTO[];
   reviewCount: number;
   averageRating: number;
+  medias: Media[];
 }
 
 export interface PaginatedResponseDTO<T> {
