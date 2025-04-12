@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, map, take } from 'rxjs';
+import { Observable, map, share, take } from 'rxjs';
 import { PaymentMethode } from 'src/app/core/models/paymentMethode.model';
 import { ThemeService } from 'src/app/services/theme.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
@@ -21,6 +21,7 @@ import { PaymentCreateModalComponent } from 'src/app/modules/admin/dashboard/com
 import { PaymentDetails } from '../../../../admin/dashboard/components/payment/payment-create-modal/payment-create-modal.component';
 import { FilterModalComponent } from 'src/app/modules/admin/dashboard/components/filter-modal/filter-modal.component';
 import { environment } from 'src/environments/environment';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface CartItem extends MenuItem {
   quantity: number;
@@ -59,6 +60,7 @@ export class CartComponent implements OnInit {
   allPaymentMethode!: PaymentMethode[];
   ref: DynamicDialogRef | undefined;
   paymentDetail!: PaymentDetails;
+  isDisplayingOnlyBarCoes$!: Observable<boolean>;
 
   constructor(
     private readonly store: Store,
@@ -68,7 +70,9 @@ export class CartComponent implements OnInit {
     private readonly router: Router,
     public themeService: ThemeService,
     public dialogService: DialogService,
+    public sharedService: SharedService,
   ) {
+    this.isDisplayingOnlyBarCoes$! = sharedService.getIsBarcodeOnlyMode();
     // Workaround for quantity issues, this ensures proper total order value
     // Subscribe to the cart items
     this.store
@@ -230,5 +234,10 @@ export class CartComponent implements OnInit {
     } else {
       return '';
     }
+  }
+  toggleDisplayingOnlyBarCode() {
+    this.isDisplayingOnlyBarCoes$.pipe(take(1)).subscribe((currentValue) => {
+      this.sharedService.toggleBarcodeOnlyMode(!currentValue);
+    });
   }
 }

@@ -20,6 +20,8 @@ import { UserReviewsModalComponent } from './user-reviews-modal/user-reviews-mod
 import { selectCartItems } from 'src/app/core/state/shopping-cart/cart.selectors';
 import { ToastrService } from 'ngx-toastr';
 import { addItem } from 'src/app/core/state/shopping-cart/cart.actions';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-menu',
@@ -37,6 +39,7 @@ import { addItem } from 'src/app/core/state/shopping-cart/cart.actions';
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('menuItemsContainer') menuItemsContainer?: ElementRef;
+  isDisplayingOnlyBarCoes$!: Observable<boolean>;
   allMenuItems: MenuItem[] = [];
   displayMenuItems: MenuItem[] = [];
   isLoading = true;
@@ -49,7 +52,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   private queryParamsSubscription!: Subscription;
   private reviewNotificationSubscription!: Subscription;
-  barCode: string = '';
+  barCode?: string;
   seachInput: string = '';
 
   constructor(
@@ -59,7 +62,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     private readonly menuItemService: MenuItemsService,
     private readonly customToasterService: CustomToasterService,
     private readonly toastr: ToastrService,
-  ) {}
+    private readonly sharedService: SharedService,
+  ) {
+    this.isDisplayingOnlyBarCoes$ = this.sharedService.getIsBarcodeOnlyMode();
+  }
 
   ngOnInit(): void {
     this.showSubmitReviewModal$ = this.store.select(selectIsCreateReviewUserModalOpen);
@@ -160,19 +166,21 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.filterItemsByCategory();
   }
   filterMenuItemsByBarCode() {
-    this.menuItemService.filterMenuItemsByBarCode(this.barCode).subscribe({
-      next: (res) => {
-        this.addToCart(res);
-        this.displayMenuItems = [res];
-      },
-      error: (err: { error: string; status: string }) => {
-        if (err.status === '404') {
-          this.customToasterService.handelErrorToaster('TOASTER_MESSAGE.AUCUN_MENU_ITEM_TROUVE_POUR_CE_BARCODE');
-        } else {
-          this.customToasterService.handelErrorToaster('HTTP_ERROR_MESSAGES.ENEXPECTED_ERROR');
-        }
-      },
-    });
+    if (this.barCode) {
+      this.menuItemService.filterMenuItemsByBarCode(this.barCode).subscribe({
+        next: (res) => {
+          this.addToCart(res);
+          this.displayMenuItems = [res];
+        },
+        error: (err: { error: string; status: string }) => {
+          if (err.status === '404') {
+            this.customToasterService.handelErrorToaster('TOASTER_MESSAGE.AUCUN_MENU_ITEM_TROUVE_POUR_CE_BARCODE');
+          } else {
+            this.customToasterService.handelErrorToaster('HTTP_ERROR_MESSAGES.ENEXPECTED_ERROR');
+          }
+        },
+      });
+    }
   }
 
   searchByQuery() {
