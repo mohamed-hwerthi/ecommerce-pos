@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, map, observeOn, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { MenuItem, PaginatedResponseDTO } from '../core/models';
 import { BaseService } from './base.service';
@@ -13,7 +13,7 @@ import { BaseService } from './base.service';
 })
 export class MenuItemsService extends BaseService {
   private readonly baseUrl = `${environment.apiUrl}/menu-items`;
-  private  menuItemCreatedSource = new BehaviorSubject<MenuItem | null>(null);
+  private menuItemCreatedSource = new BehaviorSubject<MenuItem | null>(null);
   private menuItemUpdatedSource = new BehaviorSubject<MenuItem | null>(null);
   private menuItemDeletedSource = new BehaviorSubject<number | undefined | null>(null);
   private reviewSubmittedSource = new BehaviorSubject<void>(undefined);
@@ -28,22 +28,18 @@ export class MenuItemsService extends BaseService {
     super(http, router, toastr);
   }
 
-  // Emit event when a menu item is created
   menuItemCreated(menuItem: MenuItem): void {
     this.menuItemCreatedSource.next(menuItem);
   }
 
-  // Emit event when a menu item is updated
   menuItemUpdated(menuItem: MenuItem): void {
     this.menuItemUpdatedSource.next(menuItem);
   }
 
-  // Emit event when a menu item is deleted
   menuItemDeleted(menuItemId: number | undefined | null): void {
     this.menuItemDeletedSource.next(menuItemId);
   }
 
-  // Emit event when review is submitted
   notifyReviewSubmitted() {
     this.reviewSubmittedSource.next();
   }
@@ -124,11 +120,9 @@ export class MenuItemsService extends BaseService {
 
   filterMenuItemsByBarCode(barCode: string): Observable<MenuItem> {
     return this.get<MenuItem>(`${this.baseUrl}/bar-code/${barCode}`).pipe(
-      catchError((error: {error:string  , status:string }) => 
-        {   
+      catchError((error: { error: string; status: string }) => {
         return throwError(() => {
-          return error ;
-       
+          return error;
         });
       }),
     );
@@ -136,7 +130,8 @@ export class MenuItemsService extends BaseService {
   filterMenuItemsByQuery(query: string): Observable<PaginatedResponseDTO<MenuItem>> {
     return this.get<PaginatedResponseDTO<MenuItem>>(`${this.baseUrl}/search/${query}`).pipe(
       catchError((error: any) => {
-        return throwError(() => new Error(error.message || 'An unexpected error occurred'));}),
+        return throwError(() => new Error(error.message || 'An unexpected error occurred'));
+      }),
     );
   }
 }
