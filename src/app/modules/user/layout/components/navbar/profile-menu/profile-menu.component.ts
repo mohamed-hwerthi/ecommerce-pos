@@ -12,12 +12,19 @@ import { selectCurrentUser } from '../../../../../../core/state/auth/auth.select
 import { ThemeService } from '../../../../../../services/theme.service';
 import { TranslateModule } from '@ngx-translate/core';
 
-
 @Component({
   selector: 'app-profile-menu',
   templateUrl: './profile-menu.component.html',
   standalone: true,
-  imports: [ClickOutsideDirective, NgClass, RouterLink, AngularSvgIconModule, CommonModule,RouterModule,TranslateModule],
+  imports: [
+    ClickOutsideDirective,
+    NgClass,
+    RouterLink,
+    AngularSvgIconModule,
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+  ],
   animations: [
     trigger('openClose', [
       state(
@@ -45,7 +52,7 @@ export class ProfileMenuComponent implements OnInit {
   user$: Observable<User | null>;
   public isOpen = false;
   public profileMenu = [
-    {
+    /*     {
       key: 'PROFILE_MENU.PROFILE',
       icon: './assets/icons/heroicons/outline/user-circle.svg',
       link: '/profile',
@@ -59,7 +66,7 @@ export class ProfileMenuComponent implements OnInit {
       key: 'PROFILE_MENU.REVIEWS',
       icon: './assets/icons/heroicons/outline/star.svg',
       link: '/reviews',
-    },
+    }, */
     {
       key: 'PROFILE_MENU.LOGOUT',
       icon: './assets/icons/heroicons/outline/logout.svg',
@@ -133,5 +140,4 @@ export class ProfileMenuComponent implements OnInit {
       return { ...theme, color: color };
     });
   }
-
 }

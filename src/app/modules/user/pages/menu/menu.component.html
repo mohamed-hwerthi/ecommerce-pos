@@ -1,86 +1,88 @@
 <div class="bg-white dark:bg-background mr-[300px] pr-[80px]">
-  <div class="filter-container">
-    @if(isDisplayingOnlyBarCoes$|async){
 
+  <div class="filter-container">
+    <ul class="my-2 mx-4 flex flex-col">
+      <li
+      (click)="onMenuItemClick(item)"
+
+        *ngFor="let item of profileMenu"
+        class="inline-flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-card hover:text-primary">
+        <img src="  {{item.icon}}" alt="" loading="lazy" class="h-5 w-0 text-muted-foreground/50">
+   Se  Deconnecter
+      </li>
+    </ul>
+    @if(isDisplayingOnlyBarCoes$ | async) {
       <div class="filter-item">
         <ng-template>
           <label
             for="title"
             class="mt-4 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >Title<span class="text-red-500">*</span></label
-          > </ng-template>
+            >Titre <span class="text-red-500">*</span></label
+          >
+        </ng-template>
         <input
-          type="title"
+          type="text"
           id="title"
           class="filter-input"
           [(ngModel)]="seachInput"
-          placeholder="Search  by item Name"
+          placeholder="Rechercher par nom de l'article"
           (change)="searchByQuery()"
           required
         />
-  
       </div>
     }
- 
+
     <div class="filter-item">
       <ng-template>
         <label
           for="codeBarre"
           class="mt-4 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Code a Barre <span class="text-red-500">*</span></label
-        > </ng-template>
+          >Code à barre <span class="text-red-500">*</span></label
+        >
+      </ng-template>
       <input
         [(ngModel)]="barCode"
         type="text"
         id="codeBarre"
         class="filter-input"
-        placeholder="Search by Item Bar  Code "
+        placeholder="Rechercher par code-barres"
         (change)="filterMenuItemsByBarCode()"
         required
-         />
+      />
     </div>
   </div>
-  <!-- FOOD CATEGORIES TO PICK -->
-   @if(isDisplayingOnlyBarCoes$|async){  
+
+  <!-- CATÉGORIES D'ALIMENTS À CHOISIR -->
+  @if(isDisplayingOnlyBarCoes$ | async) {
     <app-food-category></app-food-category>
+  }
 
-
-   }
-
-  <!-- Filter Section -->
-
-
-  <!-- Loading spinner -->
-   @if(isDisplayingOnlyBarCoes$|async){
+  <!-- Indicateur de chargement -->
+  @if(isDisplayingOnlyBarCoes$ | async) {
     <div *ngIf="isLoading" class="flex justify-center items-center p-48">
       <app-loader />
     </div>
+  }
 
-   }
-
-
-
-  <!-- Menu Items Display -->
-  @if(isDisplayingOnlyBarCoes$|async){
+  <!-- Affichage des articles du menu -->
+  @if(isDisplayingOnlyBarCoes$ | async) {
     <div class="container mx-auto px-2 pb-24 pt-4 overflow-auto">
-      <!-- Menu Items Display -->
       <div *ngIf="!isLoading && displayMenuItems.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <app-food-card *ngFor="let item of displayMenuItems" [item]="item"></app-food-card>
       </div>
-      <!-- Display message if no items are found -->
+
+      <!-- Message si aucun article n'est trouvé -->
       <div *ngIf="!isLoading && displayMenuItems.length === 0" class="text-center">
-        <h2 class="text-lg font-semibold text-primary h-screen">No items in this category</h2>
+        <h2 class="text-lg font-semibold text-primary h-screen">Aucun article trouvé dans cette catégorie</h2>
       </div>
-    </div>}
-
- 
+    </div>
+  }
 </div>
-@if(isDisplayingOnlyBarCoes$|async){
+
+<!-- Modal de soumission d'avis -->
+@if(isDisplayingOnlyBarCoes$ | async) {
   <app-submit-review-modal *ngIf="showSubmitReviewModal$ | async"></app-submit-review-modal>
-
-
 }
-<!-- Submit Review Modal -->
 
-<!-- Users Review Modal -->
+<!-- Modal des avis utilisateurs -->
 <app-user-reviews-modal *ngIf="showUserReviewsModal$ | async"></app-user-reviews-modal>

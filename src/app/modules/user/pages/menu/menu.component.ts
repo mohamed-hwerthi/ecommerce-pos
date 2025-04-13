@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, map, Observable, Subscription, switchMap, take } from 'rxjs';
 
+import { ToastrService } from 'ngx-toastr';
+import { addItem } from 'src/app/core/state/shopping-cart/cart.actions';
+import { selectCartItems } from 'src/app/core/state/shopping-cart/cart.selectors';
 import { CustomToasterService } from 'src/app/services/custom-toaster.service';
+import { SharedService } from 'src/app/services/shared.service';
 import { MenuItem, PaginatedResponseDTO } from '../../../../core/models';
+import * as AuthActions from '../../../../core/state/auth/auth.actions';
 import {
   selectIsCreateReviewUserModalOpen,
   selectIsUserReviewsModalOpen,
@@ -17,11 +22,6 @@ import { FoodCardComponent } from './food-card/food-card.component';
 import { FoodCategoryComponent } from './food-category/food-category.component';
 import { SubmitUserReviewModal } from './submit-review-modal/submit-review-modal.component';
 import { UserReviewsModalComponent } from './user-reviews-modal/user-reviews-modal.component';
-import { selectCartItems } from 'src/app/core/state/shopping-cart/cart.selectors';
-import { ToastrService } from 'ngx-toastr';
-import { addItem } from 'src/app/core/state/shopping-cart/cart.actions';
-import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
-import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-menu',
@@ -54,6 +54,13 @@ export class MenuComponent implements OnInit, OnDestroy {
   private reviewNotificationSubscription!: Subscription;
   barCode?: string;
   seachInput: string = '';
+  public profileMenu = [
+    {
+      key: 'PROFILE_MENU.LOGOUT',
+      icon: './assets/icons/heroicons/outline/logout.svg',
+      link: '/auth',
+    },
+  ];
 
   constructor(
     private readonly menuItemsService: MenuItemsService,
@@ -63,6 +70,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     private readonly customToasterService: CustomToasterService,
     private readonly toastr: ToastrService,
     private readonly sharedService: SharedService,
+    private readonly router: Router,
   ) {
     this.isDisplayingOnlyBarCoes$ = this.sharedService.getIsBarcodeOnlyMode();
   }
@@ -171,12 +179,15 @@ export class MenuComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.addToCart(res);
           this.displayMenuItems = [res];
+          this.barCode = undefined;
         },
         error: (err: { error: string; status: string }) => {
           if (err.status === '404') {
             this.customToasterService.handelErrorToaster('TOASTER_MESSAGE.AUCUN_MENU_ITEM_TROUVE_POUR_CE_BARCODE');
+            this.barCode = undefined;
           } else {
             this.customToasterService.handelErrorToaster('HTTP_ERROR_MESSAGES.ENEXPECTED_ERROR');
+            this.barCode = undefined;
           }
         },
       });
@@ -186,7 +197,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   searchByQuery() {
     if (this.seachInput) {
       this.menuItemService.filterMenuItemsByQuery(this.seachInput).subscribe({
-        next: (res) => {
+        next: (res: PaginatedResponseDTO<MenuItem>) => {
           this.displayMenuItems = res.items;
         },
         error: (err) => {
@@ -223,5 +234,15 @@ export class MenuComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe();
+  }
+  public onMenuItemClick(item: any): void {
+    if (item.key === 'PROFILE_MENU.LOGOUT') {
+      this.logout();
+    } else {
+      this.router.navigate([item.link]);
+    }
+  }
+  logout() {
+    this.store.dispatch(AuthActions.logout());
   }
 }

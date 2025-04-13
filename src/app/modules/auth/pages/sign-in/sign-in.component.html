@@ -1,11 +1,11 @@
-  <!-- login form -->
+<!-- login form -->
 <form class="my-5 space-y-6" [formGroup]="form">
   <div class="text-center">
-    <h2 class="mb-1 text-3xl font-semibold text-foreground">Bien Venu sur note caisse <span class="text-primary">!</span></h2>
+    <h2 class="mb-1 text-3xl font-semibold text-foreground">
+      Bien Venu sur note caisse <span class="text-primary">!</span>
+    </h2>
     <p class="text-sm text-muted-foreground">Enter vos informations pour vous connecter</p>
   </div>
-
- 
 
   <div class="space-y-3 text-left">
     <div class="form__group">
@@ -75,7 +75,7 @@
       </div>
     </div>
   </div>
-
+  <!-- 
   <div class="mb-2 flex items-center justify-between space-x-3">
     <div class="flex items-center">
       <input id="remember-me" name="remember-me" type="checkbox" />
@@ -85,7 +85,7 @@
     <app-button routerLink="/auth/forgot-password" impact="none" tone="primary" shape="rounded" size="small">
       Forgot your password?
     </app-button>
-  </div>
+  </div> -->
 
   <!-- Submit Button -->
   <div class="flex flex-col gap-2">
@@ -96,12 +96,12 @@
       </ng-template>
     </app-button>
     <!-- Admin login button -->
- <!--    <app-button type="button" (click)="loginAsAdmin()" full impact="bold" tone="danger" shape="rounded" size="medium">
+    <!--    <app-button type="button" (click)="loginAsAdmin()" full impact="bold" tone="danger" shape="rounded" size="medium">
       <ng-container *ngIf="!isLoadingAdmin; else spinnerTemplate"> Test Admin session (Softuni only) </ng-container>
     </app-button> -->
 
     <!-- Moderator login button -->
- <!--    <app-button type="button" (click)="loginAsModerator()" full impact="bold" tone="info" shape="rounded" size="medium">
+    <!--    <app-button type="button" (click)="loginAsModerator()" full impact="bold" tone="info" shape="rounded" size="medium">
       <ng-container *ngIf="!isLoadingModerator; else spinnerTemplate"> Test Moderator session </ng-container>
     </app-button>
     <app-button type="button" (click)="swaggerRedirect()" full impact="bold" tone="success" shape="rounded" size="medium">
@@ -110,7 +110,7 @@
   </div>
 
   <!-- Sign-up -->
- <!--  <div class="flex items-center text-sm text-muted-foreground">
+  <!--  <div class="flex items-center text-sm text-muted-foreground">
     Not a Member yet?
     <app-button type="button" routerLink="/auth/sign-up" impact="none" tone="primary" shape="rounded" size="small">
       Sign up

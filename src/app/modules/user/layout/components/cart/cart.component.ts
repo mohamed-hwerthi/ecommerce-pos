@@ -4,11 +4,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, map, share, take } from 'rxjs';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Observable, map, take } from 'rxjs';
 import { PaymentMethode } from 'src/app/core/models/paymentMethode.model';
+import { FilterModalComponent } from 'src/app/modules/admin/dashboard/components/filter-modal/filter-modal.component';
+import { PaymentCreateModalComponent } from 'src/app/modules/admin/dashboard/components/payment/payment-create-modal/payment-create-modal.component';
+import { InvoiceService } from 'src/app/services/invoice.service';
+import { SharedService } from 'src/app/services/shared.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { environment } from 'src/environments/environment';
 import { MenuItem, OrderSubmission, User } from '../../../../../core/models';
 import { selectCurrentUser } from '../../../../../core/state/auth/auth.selectors';
 import { clearCart, removeItem } from '../../../../../core/state/shopping-cart/cart.actions';
@@ -16,12 +23,7 @@ import { selectCartItems } from '../../../../../core/state/shopping-cart/cart.se
 import { CartVisibilityService } from '../../../../../services/cart-visibility.service';
 import { OrdersService } from '../../../../../services/orders.service';
 import { LoaderComponent } from '../../../../../shared/components/loader/loader.component';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { PaymentCreateModalComponent } from 'src/app/modules/admin/dashboard/components/payment/payment-create-modal/payment-create-modal.component';
 import { PaymentDetails } from '../../../../admin/dashboard/components/payment/payment-create-modal/payment-create-modal.component';
-import { FilterModalComponent } from 'src/app/modules/admin/dashboard/components/filter-modal/filter-modal.component';
-import { environment } from 'src/environments/environment';
-import { SharedService } from 'src/app/services/shared.service';
 
 interface CartItem extends MenuItem {
   quantity: number;
@@ -31,7 +33,7 @@ interface CartItem extends MenuItem {
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   standalone: true,
-  imports: [CommonModule, LoaderComponent, FormsModule, ButtonComponent],
+  imports: [CommonModule, LoaderComponent, FormsModule, ButtonComponent, TranslateModule],
   providers: [DialogService],
 
   animations: [
@@ -49,6 +51,13 @@ interface CartItem extends MenuItem {
 })
 export class CartComponent implements OnInit {
   currentUser$: Observable<User | null>;
+  public profileMenu = [
+    {
+      key: 'PROFILE_MENU.LOGOUT',
+      icon: './assets/icons/heroicons/outline/logout.svg',
+      link: '/auth',
+    },
+  ];
 
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
@@ -71,6 +80,7 @@ export class CartComponent implements OnInit {
     public themeService: ThemeService,
     public dialogService: DialogService,
     public sharedService: SharedService,
+    private readonly invoiceService: InvoiceService,
   ) {
     this.isDisplayingOnlyBarCoes$! = sharedService.getIsBarcodeOnlyMode();
     // Workaround for quantity issues, this ensures proper total order value
@@ -142,45 +152,6 @@ export class CartComponent implements OnInit {
     }
   }
 
-  placeOrder(): void {
-    this.currentUser$.pipe(take(1)).subscribe((currentUser) => {
-      if (!currentUser || typeof currentUser.id !== 'string') {
-        this.toastr.error('User information is missing');
-        this.isLoading = false; // Reset loading state in case of an error
-        return;
-      }
-
-      this.isLoading = true;
-
-      // Constructing order data with IDs instead of full objects
-      const orderData: OrderSubmission = {
-        userEmail: currentUser.email,
-        menuItemQuantities: this.cartItems.reduce((acc, item) => {
-          acc[item.id] = item.quantity;
-          return acc;
-        }, {} as { [menuItemId: number]: number }),
-        createdOn: new Date().toISOString(),
-        paid: false,
-        status: 'PENDING',
-      };
-
-      this.ordersService.createOrder(orderData).subscribe({
-        next: (order) => {
-          this.toastr.success('Order placed successfully!');
-          this.store.dispatch(clearCart());
-          this.cartVisibilityService.toggleCart();
-          this.router.navigate(['/orders']);
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Failed to place an order', error);
-          this.toastr.error('Failed to place an order');
-          this.isLoading = false;
-        },
-      });
-    });
-  }
-
   removeItem(itemId: number): void {
     this.store.dispatch(removeItem({ itemId }));
   }
@@ -238,6 +209,97 @@ export class CartComponent implements OnInit {
   toggleDisplayingOnlyBarCode() {
     this.isDisplayingOnlyBarCoes$.pipe(take(1)).subscribe((currentValue) => {
       this.sharedService.toggleBarcodeOnlyMode(!currentValue);
+    });
+  }
+
+  placeOrderAndPrintTicket(): void {
+    this.currentUser$.pipe(take(1)).subscribe((currentUser) => {
+      if (!currentUser || typeof currentUser.id !== 'string') {
+        this.toastr.error('User information is missing');
+        this.isLoading = false;
+        return;
+      }
+
+      this.isLoading = true;
+
+      const orderData: OrderSubmission = {
+        userEmail: currentUser.email,
+        menuItemQuantities: this.cartItems.reduce((acc, item) => {
+          acc[item.id] = item.quantity;
+          return acc;
+        }, {} as { [menuItemId: number]: number }),
+        createdOn: new Date().toISOString(),
+        paid: false,
+        status: 'PENDING',
+      };
+
+      this.ordersService.createOrder(orderData).subscribe({
+        next: (order) => {
+          this.toastr.success('Order placed successfully!');
+          this.store.dispatch(clearCart());
+          this.cartVisibilityService.toggleCart();
+
+          // Trigger invoice download
+          this.invoiceService.downloadInvoice(order.id).subscribe({
+            next: (pdfBlob) => {
+              const fileURL = URL.createObjectURL(pdfBlob);
+              const a = document.createElement('a');
+              a.href = fileURL;
+              a.download = `invoice_${order.id}.pdf`;
+              a.click();
+              URL.revokeObjectURL(fileURL);
+              this.toastr.success('Invoice downloaded successfully!');
+              this.isLoading = false;
+            },
+            error: (err) => {
+              console.error('Invoice download failed', err);
+              this.toastr.error('Invoice download failed');
+              this.isLoading = false;
+            },
+          });
+        },
+        error: (error) => {
+          console.error('Failed to place an order', error);
+          this.toastr.error('Failed to place an order');
+          this.isLoading = false;
+        },
+      });
+    });
+  }
+
+  placeOrder(): void {
+    this.currentUser$.pipe(take(1)).subscribe((currentUser) => {
+      if (!currentUser || typeof currentUser.id !== 'string') {
+        this.toastr.error('User information is missing');
+        this.isLoading = false;
+        return;
+      }
+
+      this.isLoading = true;
+
+      const orderData: OrderSubmission = {
+        userEmail: currentUser.email,
+        menuItemQuantities: this.cartItems.reduce((acc, item) => {
+          acc[item.id] = item.quantity;
+          return acc;
+        }, {} as { [menuItemId: number]: number }),
+        createdOn: new Date().toISOString(),
+        paid: false,
+        status: 'PENDING',
+      };
+
+      this.ordersService.createOrder(orderData).subscribe({
+        next: (order) => {
+          this.toastr.success('Order placed successfully!');
+          this.store.dispatch(clearCart());
+          this.cartVisibilityService.toggleCart();
+        },
+        error: (error) => {
+          console.error('Failed to place an order', error);
+          this.toastr.error('Failed to place an order');
+          this.isLoading = false;
+        },
+      });
     });
   }
 }
