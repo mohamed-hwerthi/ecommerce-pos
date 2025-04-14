@@ -1,5 +1,7 @@
 import { CategoryDTO } from './categoryDTO.model';
+import { CurrencyDTO } from './currency.model';
 import { Media } from './media.model';
+import { Tax } from './tax.model';
 
 export interface MenuItem {
   id: number;
@@ -9,6 +11,8 @@ export interface MenuItem {
   imageUrl: URL;
   salesCount: number;
   categories: CategoryDTO[];
+  currency: CurrencyDTO;
+  tax: Tax;
   reviewCount: number;
   averageRating: number;
   medias: Media[];

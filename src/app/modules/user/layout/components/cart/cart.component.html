@@ -57,7 +57,8 @@
                   </svg>
                 </button>
               </div>
-              <span class="text-lg font-semibold">{{ item.price * item.quantity | currency }}</span>
+              <span class="text-lg font-semibold">{{ item.price * item.quantity }} <span class="text-sm text-blue-500">&nbsp;{{ item.currency.symbol }}</span>
+            </span>
             </div>
           </div>
         </li>

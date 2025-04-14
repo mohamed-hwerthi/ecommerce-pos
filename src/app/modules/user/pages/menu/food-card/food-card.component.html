@@ -12,7 +12,9 @@
 
         <div class="flex flex-row justify-between py-2">
           <div class="flex flex-row">
-            <p class="text-[17px] font-bold text-[#0FB478]">{{ item.price | currency }}</p>
+            <p class="text-[17px] font-bold text-[#0FB478]">
+              {{ item.price }} <span class="text-sm text-blue-500">&nbsp;{{ item.currency.symbol }}</span>
+            </p>
           </div>
         </div>
 
