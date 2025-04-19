@@ -22,6 +22,7 @@ import { FoodCardComponent } from './food-card/food-card.component';
 import { FoodCategoryComponent } from './food-category/food-category.component';
 import { SubmitUserReviewModal } from './submit-review-modal/submit-review-modal.component';
 import { UserReviewsModalComponent } from './user-reviews-modal/user-reviews-modal.component';
+import { ProfileMenuComponent } from '../../layout/components/navbar/profile-menu/profile-menu.component';
 
 @Component({
   selector: 'app-menu',
@@ -33,6 +34,7 @@ import { UserReviewsModalComponent } from './user-reviews-modal/user-reviews-mod
     LoaderComponent,
     SubmitUserReviewModal,
     UserReviewsModalComponent,
+    ProfileMenuComponent,
     FormsModule,
   ],
   templateUrl: './menu.component.html',

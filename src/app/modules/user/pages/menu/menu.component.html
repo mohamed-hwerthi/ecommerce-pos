@@ -1,54 +1,57 @@
 <div class="bg-white dark:bg-background mr-[300px] pr-[80px]">
 
-  <div class="filter-container">
-    <ul class="my-2 mx-4 flex flex-col">
-      <li
-      (click)="onMenuItemClick(item)"
-        *ngFor="let item of profileMenu"
-        class="inline-flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-card hover:text-primary">
-        <img src="  {{item.icon}}" alt="" loading="lazy" class="h-5 w-0 text-muted-foreground/50">
-   Se  Deconnecter
-      </li>
-    </ul>
+  <div class="filter-container flex items-center justify-end space-x-8">
+    <!-- Profil à droite avec marge à droite -->
+
+
+    <!-- Inputs côte à côte -->
     @if(isDisplayingOnlyBarCoes$ | async) {
-      <div class="filter-item">
-        <ng-template>
+      <div class="flex flex-row items-center space-x-6">
+        <!-- Profile menu as first item -->
+        <div class="filter-item min-w-[280px]">
+          <app-profile-menu></app-profile-menu>
+        </div>
+      
+        <!-- First input -->
+        <div class="filter-item min-w-[280px]">
           <label
             for="title"
-            class="mt-4 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >Titre <span class="text-red-500">*</span></label
+            class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
           >
-        </ng-template>
-        <input
-          type="text"
-          id="title"
-          class="filter-input"
-          [(ngModel)]="seachInput"
-          placeholder="Rechercher par nom de l'article"
-          (change)="searchByQuery()"
-          required
-        />
+            Titre <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="title"
+            class="filter-input w-full"
+            [(ngModel)]="seachInput"
+            placeholder="Rechercher par nom de l'article"
+            (change)="searchByQuery()"
+            required
+          />
+        </div>
+      
+        <!-- Second input -->
+        <div class="filter-item min-w-[280px]">
+          <label
+            for="codeBarre"
+            class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Code à barre <span class="text-red-500">*</span>
+          </label>
+          <input
+            [(ngModel)]="barCode"
+            type="text"
+            id="codeBarre"
+            class="filter-input w-full"
+            placeholder="Rechercher par code-barres"
+            (change)="filterMenuItemsByBarCode()"
+            required
+          />
+        </div>
       </div>
+      
     }
-
-    <div class="filter-item">
-      <ng-template>
-        <label
-          for="codeBarre"
-          class="mt-4 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Code à barre <span class="text-red-500">*</span></label
-        >
-      </ng-template>
-      <input
-        [(ngModel)]="barCode"
-        type="text"
-        id="codeBarre"
-        class="filter-input"
-        placeholder="Rechercher par code-barres"
-        (change)="filterMenuItemsByBarCode()"
-        required
-      />
-    </div>
   </div>
 
   <!-- CATÉGORIES D'ALIMENTS À CHOISIR -->
