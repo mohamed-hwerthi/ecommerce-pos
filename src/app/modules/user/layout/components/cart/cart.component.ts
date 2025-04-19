@@ -51,6 +51,7 @@ interface CartItem extends MenuItem {
 })
 export class CartComponent implements OnInit {
   currentUser$: Observable<User | null>;
+  currentCurrency!: string;
   public profileMenu = [
     {
       key: 'PROFILE_MENU.LOGOUT',
@@ -83,26 +84,25 @@ export class CartComponent implements OnInit {
     private readonly invoiceService: InvoiceService,
   ) {
     this.isDisplayingOnlyBarCoes$! = sharedService.getIsBarcodeOnlyMode();
-    // Workaround for quantity issues, this ensures proper total order value
-    // Subscribe to the cart items
+
     this.store
       .select(selectCartItems)
       .pipe(
         map((items) => {
-          // For each item from the store, checking if it's already in local cart
           return items.map((storeItem) => {
             const existingItem = this.cartItems.find((item) => item.id === storeItem.id);
             return {
               ...storeItem,
-              // If it exists, keep its current quantity. If not, set quantity to 1.
+
               quantity: existingItem ? existingItem.quantity : 1,
             };
-          }) as CartItem[]; // Cast the result as an array of CartItem
+          }) as CartItem[];
         }),
       )
       .subscribe((items) => {
-        this.cartItems = items; // Update local cart items
-        this.calculateTotalPrice(); // Recalculate the total price
+        this.cartItems = items;
+        this.calculateTotalPrice();
+        this.currentCurrency = this.cartItems[0].currency.symbol;
       });
     this.currentUser$ = this.store.pipe(select(selectCurrentUser));
   }
@@ -239,7 +239,6 @@ export class CartComponent implements OnInit {
           this.store.dispatch(clearCart());
           this.cartVisibilityService.toggleCart();
 
-          // Trigger invoice download
           this.invoiceService.downloadInvoice(order.id).subscribe({
             next: (pdfBlob) => {
               const fileURL = URL.createObjectURL(pdfBlob);

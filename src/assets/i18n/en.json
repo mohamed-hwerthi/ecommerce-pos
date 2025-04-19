@@ -14,10 +14,11 @@
     "SERVICES": "Services"
   },
   "MENU": {
-    "MENU": "Naturels",
-    "TITLE": "Nos Produits  ",
-    "SUB_TITLE": "Découvrez notre large gamme de produits cosmétiques naturels. Il y en a pour tous les goûts !"
+    "MENU": "Product",
+    "TITLE": "Our Delights",
+    "SUB_TITLE": "Explore our wide variety of dishes. There's something for everyone!"
   },
+
   "PLANS": {
     "TITLE": "Our Plans",
     "DESCRIPTION": "Choose the perfect plan for your business needs.",

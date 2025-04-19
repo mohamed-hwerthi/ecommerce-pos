@@ -14,7 +14,7 @@
     "SERVICES": "Services"
   },
   "MENU": {
-    "MENU": "Menu",
+    "MENU": "Produit",
     "TITLE": "Nos Délices",
     "SUB_TITLE": "Explorez notre large variété de plats. Il y en a pour tous les goûts !"
   },
@@ -174,9 +174,8 @@
   },
   "TOASTER_MESSAGE": {
     "ADDING_PAYMENT_DATA_SUCCEEFULLY": "Donnees de paiement bien retenus",
-    "NO_MENU_ITME_FOUND_FOR_THIS_BAR_CODE": "Aucun item de menu trouve pour ce code barre" , 
+    "NO_MENU_ITME_FOUND_FOR_THIS_BAR_CODE": "Aucun item de menu trouve pour ce code barre",
     "AUCUN_MENU_ITEM_TROUVE_POUR_CE_BARCODE": "Aucun menu item trouvé  pour ce barcode"
-
   },
   "HTTP_ERROR_MESSAGES": {
     "ENEXPECTED_ERROR": "Une erreur inattendue s'est produite"
