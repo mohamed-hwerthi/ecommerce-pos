@@ -91,6 +91,81 @@
         </li>
       </ul>
     </div>
+    <div class="mt-4 flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
+      <span class="text-lg font-semibold">Total :</span>
+      <span class="text-lg font-semibold">
+        {{ totalPrice }}
+        <span class="text-sm text-blue-500">&nbsp;{{ currentCurrency }}</span>
+      </span>
+    </div>
+
+    <div class="mt-6 flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
+      <span class="text-lg font-semibold mr-6">Méthode de paiement :</span>
+    </div>
+
+    <div class="flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
+      @for (paymentMethod of allPaymentMethode; track $index) {
+        <td class="py-2 text-center">
+          <div class="inline-block">
+            <app-button (click)="openPaymentDialog()" size="large" impact="light" shape="rounded" size="medium">
+              {{ paymentMethod }}
+            </app-button>
+          </div>
+        </td>
+      }
+    </div>
+
+    <!-- Montant donné par le client (commented out) -->
+    
+<!--     <div class="mt-6 flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
+      <span class="text-lg font-semibold mr-6">Montant donné :</span>
+      <input
+        type="number"
+        id="amountGiven"
+        [(ngModel)]="amountGivenByUser"
+        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white"
+        placeholder="Saisir le montant donné"
+        min="0"
+        (change)="onSelectingAmountGivenByUser()"
+      />
+    </div> -->
+    
+
+    <!-- Rendu ou montant à recevoir (commented out) -->
+    <!--
+    <div class="mt-6 flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
+      <span class="text-lg font-semibold mr-6">Monnaie à rendre :</span>
+      <input
+        [(ngModel)]="amountToChange" 
+        type="number"
+        id="amountToChange"
+        disabled
+        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white"
+        placeholder="Montant à rendre au client"
+      />
+    </div>
+    -->
+
+    <button
+      (click)="placeOrder()"
+      class="mt-6 w-full rounded-lg py-2 text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
+      [disabled]="isLoading"
+    >
+      <span *ngIf="!isLoading">Valider la commande</span>
+      <span *ngIf="isLoading"><app-loader/></span>
+    </button>
+
+    <button
+      (click)="placeOrderAndPrintTicket()"
+      class="mt-4 w-full rounded-lg py-2 text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
+      [disabled]="isLoading"
+    >
+      <span *ngIf="!isLoading">Valider et imprimer le ticket</span>
+      <span *ngIf="isLoading"><app-loader/></span>
+    </button>
+  </div>
+
+
 
     <ng-template #emptyCart>
       <div class="flex flex-1 flex-col items-center justify-center">
@@ -112,5 +187,4 @@
       [disabled]="isLoading">
       {{ (isDisplayingOnlyBarCoes$ | async) ? 'Afficher en plein écran' : "Réduire l'affichage" }}
     </button>
-  </div>
 </div>
