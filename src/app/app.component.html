@@ -1,3 +1,10 @@
+@if(isDisplayingOnlyBarCoes$|async){
 <div>
   <router-outlet></router-outlet>
 </div>
+
+} @else{
+<div style="background-color: white">
+  <router-outlet></router-outlet>
+</div>
+}

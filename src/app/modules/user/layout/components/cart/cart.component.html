@@ -14,9 +14,24 @@
           'bg-white',
           'shadow-lg'
         ]
-      : ['w-[80%]', 'absolute', 'top-1/2', 'left-1/2', 'transform', '-translate-x-1/2', '-translate-y-1/2']
+      : [
+          'w-[80%]',
+          'absolute',
+          'top-1/2',
+          'left-1/2',
+          'transform',
+          '-translate-x-1/2',
+          '-translate-y-1/2',
+          'bg-white',          
+          'dark:bg-gray-800',            'shadow-lg',         
+          'dark:text-gray-100', 
+          'text-gray-900'       
+        ]
   "
-  (click)="$event.stopPropagation()">
+  (click)="$event.stopPropagation()"
+  (keydown)="handleKeyDown($event)"
+>
+
   <div class="p-4 text-gray-900 dark:text-gray-100">
     <h2 class="text-2xl font-semibold">Panier</h2>
 

@@ -50,6 +50,9 @@ interface CartItem extends MenuItem {
   ],
 })
 export class CartComponent implements OnInit {
+  handleKeyDown($event: KeyboardEvent) {
+    throw new Error('Method not implemented.');
+  }
   currentUser$: Observable<User | null>;
   currentCurrency!: string;
   public profileMenu = [
