@@ -8,73 +8,65 @@
     <h2 class="text-2xl font-semibold">Panier</h2>
 
     <div *ngIf="cartItems.length > 0; else emptyCart" class="mt-4">
-      <!-- Scrollable container for cart items -->
-      <div class="max-h-[400px] overflow-y-auto">
-        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-          <li *ngFor="let item of cartItems" class="flex gap-4 py-4">
-            <img
-              [src]="getMenuItemImage(item)"
-              alt="{{ item.title }}"
-              class="h-20 w-20 flex-none rounded-full border border-gray-300 dark:border-gray-600 object-cover"
-            />
-            <div class="flex flex-1 flex-col">
-              <div class="flex justify-between">
-                <span class="mr-2 truncate font-semibold">
-                  {{ item.title.length > 20 ? (item.title | slice: 0:20) + '...' : item.title }}
-                </span> 
+      <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+        <li *ngFor="let item of cartItems" class="flex gap-4 py-4">
+          <img
+            [src]="getMenuItemImage(item)"
+            alt="{{ item.title }}"
+            class="h-20 w-20 flex-none rounded-full border border-gray-300 dark:border-gray-600 object-cover"
+          />
+          <div class="flex flex-1 flex-col">
+            <div class="flex justify-between">
+              <span class="mr-2 truncate font-semibold">
+                {{ item.title.length > 20 ? (item.title | slice: 0:20) + '...' : item.title }}
+              </span> 
+              <button
+                (click)="removeItem(item.id)"
+                class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+              >
+                Supprimer
+              </button>
+            </div>
+            <div class="flex items-center justify-between mt-2">
+              <div class="flex gap-2 items-center">
+                <!-- Moins -->
                 <button
-                  (click)="removeItem(item.id)"
-                  class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                  (click)="decreaseQuantity(item)"
+                  class="rounded-full bg-transparent text-primary dark:text-primary-dark border border-gray-300 dark:border-gray-600"
                 >
-                  Supprimer
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </button>
+                <input
+                  type="number"
+                  [value]="item.quantity"
+                  (change)="onQuantityChange($event, item)"
+                  min="1"
+                  class="w-14 text-center bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-white border border-gray-300 dark:border-gray-600 rounded"
+                />
+                <!-- Plus -->
+                <button
+                  (click)="increaseQuantity(item)"
+                  class="rounded-full bg-transparent text-primary dark:text-primary-dark border border-gray-300 dark:border-gray-600"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
                 </button>
               </div>
-              <div class="flex items-center justify-between mt-2">
-                <div class="flex gap-2 items-center">
-                  <!-- Moins -->
-                  <button
-                    (click)="decreaseQuantity(item)"
-                    class="rounded-full bg-transparent text-primary dark:text-primary-dark border border-gray-300 dark:border-gray-600"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                      stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                  </button>
-                  <input
-                    type="number"
-                    [value]="item.quantity"
-                    (change)="onQuantityChange($event, item)"
-                    min="1"
-                    class="w-14 text-center bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-white border border-gray-300 dark:border-gray-600 rounded"
-                  />
-                  <!-- Plus -->
-                  <button
-                    (click)="increaseQuantity(item)"
-                    class="rounded-full bg-transparent text-primary dark:text-primary-dark border border-gray-300 dark:border-gray-600"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                      stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                  </button>
-                </div>
-                <span class="text-lg font-semibold">
-                  {{ item.price * item.quantity }} 
-                  <span class="text-sm text-blue-500">&nbsp;{{ item.currency.symbol }}</span>
-                </span>
-              </div>
+              <span class="text-lg font-semibold">{{ item.price * item.quantity }} <span class="text-sm text-blue-500">&nbsp;{{ item.currency.symbol }}</span>
+            </span>
             </div>
-          </li>
-        </ul>
-      </div>
+          </div>
+        </li>
+      </ul>
 
       <div class="mt-4 flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
         <span class="text-lg font-semibold">Total :</span>
-        <span class="text-lg font-semibold">
-          {{ totalPrice }}
-          <span class="text-sm text-blue-500">&nbsp;{{ currentCurrency }}</span>
-        </span>
+        <span class="text-lg font-semibold">{{ totalPrice  }}<span class="text-sm text-blue-500">&nbsp;{{ currentCurrency}}</span></span>
       </div>
 
       <div class="mt-6 flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
@@ -86,15 +78,15 @@
           <td class="py-2 text-center">
             <div class="inline-block">
               <app-button (click)="openPaymentDialog()" size="large" impact="light" shape="rounded" size="medium">
-                {{ paymentMethod }}
+                {{  paymentMethod }}
               </app-button>
             </div>
           </td>
         }
       </div>
 
-      <!-- Montant donné par le client (commented out) -->
-      <!--
+      <!-- Montant donné par le client -->
+<!--
       <div class="mt-6 flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
         <span class="text-lg font-semibold mr-6">Montant donné :</span>
         <input
@@ -107,10 +99,10 @@
           (change)="onSelectingAmountGivenByUser()"
         />
       </div>
-      -->
+-->
 
-      <!-- Rendu ou montant à recevoir (commented out) -->
-      <!--
+      <!-- Rendu ou montant à recevoir -->
+<!--
       <div class="mt-6 flex justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
         <span class="text-lg font-semibold mr-6">Monnaie à rendre :</span>
         <input
@@ -122,7 +114,7 @@
           placeholder="Montant à rendre au client"
         />
       </div>
-      -->
+-->
 
       <button
         (click)="placeOrder()"
@@ -153,16 +145,16 @@
         <p class="text-center text-gray-600 dark:text-gray-400">Votre panier est vide. Ajoutez des articles !</p>
       </div>
     </ng-template>
-
     <button
-      id="toggleViewButton"
-      #barcodeInput
-      (click)="toggleDisplayingOnlyBarCode()"
-      class="mt-6 w-full rounded-lg py-2 text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
-      [disabled]="isLoading"
-    >
-      {{ (isDisplayingOnlyBarCoes$ | async) ? 'Afficher en plein écran' : 'Réduire l\'affichage' }}
-    </button>
+    id="toggleViewButton"
+    #barcodeInput
+    (click)="toggleDisplayingOnlyBarCode()"
+    class="mt-6 w-full rounded-lg py-2 text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
+    [disabled]="isLoading"
+  >
+    {{ (isDisplayingOnlyBarCoes$ | async) ? 'Afficher en plein écran' : 'Réduire l\'affichage' }}
+  </button>
 
   </div>
+
 </div>

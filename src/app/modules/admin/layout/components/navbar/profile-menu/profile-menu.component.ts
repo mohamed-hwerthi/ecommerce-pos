@@ -10,6 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { User } from '../../../../../../core/models';
 import { selectCurrentUser } from '../../../../../../core/state/auth/auth.selectors';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -99,7 +100,12 @@ export class ProfileMenuComponent implements OnInit {
 
   public themeMode = ['light', 'dark'];
 
-  constructor(public themeService: ThemeService, private router: Router, private store: Store) {
+  constructor(
+    public themeService: ThemeService,
+    private readonly router: Router,
+    private readonly store: Store,
+    private readonly sharedService: SharedService,
+  ) {
     this.user$ = this.store.pipe(select(selectCurrentUser));
   }
 

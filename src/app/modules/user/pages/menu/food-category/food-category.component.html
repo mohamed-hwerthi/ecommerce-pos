@@ -1,28 +1,7 @@
 <section class="body-font relative overflow-hidden pb-8">
   <!-- Background with opacity -->
-  <div
-    class="absolute inset-0 z-0"
-    style="
-      background-image: url('./assets/images/menu-background2.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-    ">
-    <div class="absolute inset-0 bg-black opacity-50"></div>
-  </div>
 
   <div class="container relative z-10 mx-auto px-5 pt-24 pb-2">
-    <!-- Section Title -->
-    <div class="mb-4 flex w-full flex-col flex-wrap items-center text-center">
-      <h1 class="title-font mb-2 text-2xl font-medium text-white sm:text-5xl">
-        {{ 'MENU.TITLE' | translate }}
-        <span class="text-primary"> {{ 'MENU.MENU' | translate }} </span>
-      </h1>
-      <p class="w-full leading-relaxed text-white lg:w-1/2">
-        {{ 'MENU.SUB_TITLE' | translate }}
-      </p>
-    </div>
-
     <!-- Categories Grid -->
     <div class="flex flex-wrap justify-center">
       <div *ngFor="let category of allCategories; let i = index" class="p-4 text-center">

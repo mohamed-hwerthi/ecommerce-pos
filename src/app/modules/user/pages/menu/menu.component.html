@@ -5,13 +5,13 @@
 
 
     <!-- Inputs côte à côte -->
-    @if(isDisplayingOnlyBarCoes$ | async) {
+
       <div class="flex flex-row items-center space-x-6">
         <!-- Profile menu as first item -->
         <div class="filter-item min-w-[280px]">
           <app-profile-menu></app-profile-menu>
         </div>
-      
+        @if(isDisplayingOnlyBarCoes$ | async) {
         <!-- First input -->
         <div class="filter-item min-w-[280px]">
           <label
@@ -23,13 +23,14 @@
           <input 
             type="text"
             id="title"
-            class="filter-input w-full"
+            class="w-full px-4 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
             [(ngModel)]="seachInput"
             placeholder="Rechercher par nom de l'article"
             (change)="searchByQuery()"
             required
           />
         </div>
+      }
       
         <!-- Second input -->
         <div class="filter-item min-w-[280px]">
@@ -43,15 +44,16 @@
             [(ngModel)]="barCode"
             type="text"
             id="codeBarre"
-            class="filter-input w-full"
+            class="w-full px-4 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
             placeholder="Rechercher par code-barres"
             (change)="filterMenuItemsByBarCode()"
             required
           />
         </div>
+      
       </div>
       
-    }
+  
   </div>
 
   <!-- CATÉGORIES D'ALIMENTS À CHOISIR -->
