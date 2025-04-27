@@ -10,11 +10,22 @@
       <div class="flex min-h-[100px] flex-col p-4 sm:p-6">
         <p class="mb-1 text-[22px] font-bold leading-7 text-gray-700 dark:text-white">{{ item.title }}</p>
 
-        <div class="flex flex-row justify-between py-2">
-          <div class="flex flex-row">
-            <p class="text-[17px] font-bold text-[#0FB478]">
-              {{ item.price }} <span class="text-sm text-blue-500">&nbsp;{{ item.currency.symbol }}</span>
-            </p>
+        <div class="flex flex-row space-x-4">
+          <div class="flex items-center space-x-1">
+            <span class="text-[17px] font-bold text-red-500 line-through">
+              {{ item.price }}
+            </span>
+            <span class="text-sm text-blue-500">
+              {{ item.currency.symbol }}
+            </span>
+          </div>
+          <div class="flex items-center space-x-1">
+            <span class="text-[17px] font-bold text-[#0FB478]">
+              {{ item.price * 0.8 | number: '1.2-2' }}
+            </span>
+            <span class="text-sm text-blue-500">
+              {{ item.currency.symbol }}
+            </span>
           </div>
         </div>
 

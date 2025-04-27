@@ -204,6 +204,8 @@ export class CartComponent implements OnInit {
 
   getMenuItemImage(item: MenuItem): string {
     if (item.medias.length > 0) {
+      console.log(environment.apiStaticUrl + item.medias[0].url);
+
       return environment.apiStaticUrl + item.medias[0].url;
     } else {
       return '';

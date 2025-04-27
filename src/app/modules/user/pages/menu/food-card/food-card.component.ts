@@ -59,7 +59,7 @@ export class FoodCardComponent {
     this.store
       .select(selectCartItems)
       .pipe(
-        take(1), // Take the first item only and automatically unsubscribe, prevents duplicates in cart
+        take(1),
         map((items: MenuItem[]) => {
           const exists = items.some((existingItem) => existingItem.id === item.id);
           if (exists) {
@@ -67,15 +67,24 @@ export class FoodCardComponent {
               positionClass: 'custom-toast-top-right',
             });
           } else {
-            this.toastr.success('Item added to cart!', '', {
+            // 🛒 Appliquer une réduction de 20% sur le prix
+            const discountedItem: MenuItem = {
+              ...item,
+              price: item.price * 0.8, // 20% de réduction
+            };
+
+            this.toastr.success('Item added to cart with 20% discount!', '', {
               positionClass: 'custom-toast-top-right',
             });
-            this.store.dispatch(addItem({ item }));
+
+            // Dispatch avec l'item réduit
+            this.store.dispatch(addItem({ item: discountedItem }));
           }
         }),
       )
       .subscribe();
   }
+
   getMenuItemImage(): string {
     if (this.item.medias.length > 0) {
       return environment.apiStaticUrl + this.item.medias[0].url;

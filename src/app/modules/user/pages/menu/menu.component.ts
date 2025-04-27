@@ -228,10 +228,15 @@ export class MenuComponent implements OnInit, OnDestroy {
               positionClass: 'custom-toast-top-right',
             });
           } else {
+            // 🛒 Appliquer une réduction de 20% sur le prix
+            const discountedItem: MenuItem = {
+              ...item,
+              price: item.price * 0.8, // 20% de réduction
+            };
             this.toastr.success('Item added to cart!', '', {
               positionClass: 'custom-toast-top-right',
             });
-            this.store.dispatch(addItem({ item }));
+            this.store.dispatch(addItem({ item: discountedItem }));
           }
         }),
       )
